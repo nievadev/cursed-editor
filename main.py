@@ -9,6 +9,7 @@ def main(stdscr):
     end = (height - 4, width - 10)
 
     textpad.rectangle(stdscr, beg[0], beg[1], end[0], end[1])
+    box_width = end[1] - beg[1]
 
     stdscr.move(beg[0] + 1, beg[1] + 1)
 
@@ -31,14 +32,15 @@ def main(stdscr):
             stdscr.move(cursor[0] + 1, beg[1] + 1)
             continue
 
+        if len(line) + 1 == box_width:
+            continue
+
         line += chr(key)
         stdscr.addstr(chr(key))
-        stdscr.addstr(0, 0, str(len(line)))
-        stdscr.addstr(1, 0, str(end[1])) 
-        stdscr.move(cursor[0], cursor[1] + 1)
 
+    buf = "".join(lines)
+
+    with open("test_file", "w") as f:
+        f.write(buf)
 
 curses.wrapper(main)
-
-with open("test_file", "r+") as f:
-    f.write(buf)
