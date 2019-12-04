@@ -1,0 +1,5 @@
+import curses
+
+def main(stdscr):
+
+curses.wrapper(main)
