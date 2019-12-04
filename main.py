@@ -1,37 +1,44 @@
 import curses
+from curses import textpad
 
 def main(stdscr):
     curses.raw()
 
-    HEIGHT, WIDTH = stdscr.getmaxyx()
+    height, width = stdscr.getmaxyx()
+    beg = (4, 10)
+    end = (height - 4, width - 10)
+
+    textpad.rectangle(stdscr, beg[0], beg[1], end[0], end[1])
+
+    stdscr.move(beg[0] + 1, beg[1] + 1)
 
     line = str()
     lines = list()
 
-    beg = (4, 10)
-    end = (HEIGHT - 4, WIDTH - WIDTH // 10 - 3)
-
-    textpad.rectangle(stdscr, beg[0], beg[1], end[0], end[1]) 
-
     while True:
         key = stdscr.getch()
-        
-        if key == 263:
-            buf = buf[:-1]
+        cursor = stdscr.getyx()
 
-        elif key == 3:
+        if key == 3:
             break
 
         elif key == 10:
-            lines.append(line)
-            stdscr.move(beg[0] + len(lines), beg[1])
+            if cursor[0] + 1 == end[0]:
+                continue
 
-        else:
-            line += chr(key)
+            lines.append(line + "\n")
+            line = str()
+            stdscr.move(cursor[0] + 1, beg[1] + 1)
+            continue
 
-        stdscr.clear()
-        textpad.rectangle(stdscr, beg[0], beg[1], end[0], end[1]) 
-        stdscr.move(beg[0] + len(lines) + 1, beg[1] + 1)
-        stdscr.addstr(line)
+        line += chr(key)
+        stdscr.addstr(chr(key))
+        stdscr.addstr(0, 0, str(len(line)))
+        stdscr.addstr(1, 0, str(end[1])) 
+        stdscr.move(cursor[0], cursor[1] + 1)
+
 
 curses.wrapper(main)
+
+with open("test_file", "r+") as f:
+    f.write(buf)
