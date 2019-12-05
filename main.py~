@@ -32,11 +32,20 @@ def main(stdscr):
             stdscr.move(cursor[0] + 1, beg[1] + 1)
             continue
 
+        elif key == 263:
+            stdscr.addstr(cursor[0], cursor[1] - 1, " ")
+            stdscr.move(cursor[0], cursor[1] - 1)
+            line = line[:-1]
+            continue
+
         if len(line) + 1 == box_width:
             continue
 
         line += chr(key)
         stdscr.addstr(chr(key))
+
+    if len(lines) == 0:
+        lines = [line]
 
     buf = "".join(lines)
 
