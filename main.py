@@ -35,7 +35,14 @@ def main(stdscr):
         elif key == 263:
             if cursor[1] - 1 == beg[1]:
                 continue
+                # if len(lines) == 0:
+                #     continue
 
+                # else:
+                #     stdscr.move(cursor[0] - 1, beg[1] + len(lines[-1]))
+                #     lines.pop()
+                #     continue
+    
             stdscr.addstr(cursor[0], cursor[1] - 1, " ")
             stdscr.move(cursor[0], cursor[1] - 1)
             line = line[:-1]
